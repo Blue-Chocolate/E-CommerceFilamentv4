@@ -14,6 +14,8 @@ return new class extends Migration {
             $table->decimal('price', 10, 2);
             $table->unsignedInteger('stock')->default(0);
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+                        $table->string('image')->nullable();
+
             $table->timestamps();
         });
     }

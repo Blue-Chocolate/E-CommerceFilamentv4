@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProductResource\Pages;
-use App\Models\Product;
+use App\Filament\Resources\Categories\Pages;
+use App\Models\Category;
 use BackedEnum;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -14,9 +14,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 
-class ProductResource extends Resource
+class CategoryResource extends Resource
 {
-    protected static ?string $model = Product::class;
+    protected static ?string $model = Category::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -26,17 +26,8 @@ class ProductResource extends Resource
     {
         return $schema
             ->components([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('description')
-                    ->maxLength(1000),
-                Forms\Components\TextInput::make('price')
-                    ->numeric()
-                    ->required(),
-                Forms\Components\TextInput::make('stock')
-                    ->numeric()
-                    ->required(),
+                Forms\Components\TextInput::make('name')->required()->maxLength(255),
+                Forms\Components\Textarea::make('description')->maxLength(500),
             ]);
     }
 
@@ -46,8 +37,7 @@ class ProductResource extends Resource
             ->columns([
                 TextColumn::make('id')->sortable(),
                 TextColumn::make('name')->searchable(),
-                TextColumn::make('price')->sortable(),
-                TextColumn::make('stock')->sortable(),
+                TextColumn::make('description'),
             ])
             ->actions([
                 EditAction::make(),
@@ -60,10 +50,10 @@ class ProductResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProducts::route('/'),
-            'create' => Pages\CreateProduct::route('/create'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
-            'view' => Pages\ViewProduct::route('/{record}'),
+            'index' => Pages\ListCategories::route('/'),
+            'create' => Pages\CreateCategory::route('/create'),
+            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'view' => Pages\ViewCategory::route('/{record}'),
         ];
     }
 }
